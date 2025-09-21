@@ -1,0 +1,17 @@
+{
+  "name": "routes-rindexer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.0",
+  "dependencies": {
+    "@eco-foundation/chains": "^2.0.3",
+    "@eco-foundation/routes-ts": "3.0.0-alpha.8"
+  }
+}
