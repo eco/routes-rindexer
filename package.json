@@ -12,6 +12,7 @@
   "packageManager": "pnpm@10.17.0",
   "dependencies": {
     "@eco-foundation/chains": "^2.0.3",
-    "@eco-foundation/routes-ts": "3.0.0-alpha.8"
+    "@eco-foundation/routes-ts": "3.0.0-alpha.8",
+    "js-yaml": "^4.1.0"
   }
 }

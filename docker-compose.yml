@@ -1,0 +1,168 @@
+# Production docker-compose.yml for Eco Rindexer
+# Based on Phase 4.1 deployment architecture from initialization plan
+
+version: '3.8'
+
+services:
+  # eRPC - Fault-tolerant RPC proxy with caching and failover
+  erpc:
+    image: erpc/erpc:latest
+    container_name: eco-rindexer-erpc
+    environment:
+      - ALCHEMY_API_KEY=${ALCHEMY_API_KEY}
+      - INFURA_API_KEY=${INFURA_API_KEY}
+    volumes:
+      - ./erpc.yaml:/root/erpc.yaml
+    ports:
+      - "4000:4000"  # RPC proxy port
+      - "4001:4001"  # Metrics port
+    restart: unless-stopped
+    networks:
+      - eco-rindexer-network
+    command: ["erpc", "--config", "/root/erpc.yaml"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  rindexer:
+    image: ghcr.io/joshstevens19/rindexer:latest
+    container_name: eco-rindexer
+    environment:
+      - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
+      - ALCHEMY_API_KEY=${ALCHEMY_API_KEY}
+      - INFURA_API_KEY=${INFURA_API_KEY}
+      - CURTIS_API_KEY=${CURTIS_API_KEY}
+      - MANTA_API_KEY=${MANTA_API_KEY}
+      - TRACK_NATIVE_TOKEN_ADDRESSES=${TRACK_NATIVE_TOKEN_ADDRESSES}
+    volumes:
+      - ./rindexer.yaml:/app/rindexer.yaml
+      - ./abis:/app/abis
+    depends_on:
+      - postgres
+      - redis
+      - erpc
+    restart: unless-stopped
+    networks:
+      - eco-rindexer-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: eco-rindexer-postgres
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d/
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    restart: unless-stopped
+    networks:
+      - eco-rindexer-network
+    # Performance optimizations for production
+    command: >
+      postgres
+      -c shared_preload_libraries=pg_stat_statements
+      -c pg_stat_statements.track=all
+      -c max_connections=200
+      -c shared_buffers=256MB
+      -c effective_cache_size=1GB
+      -c maintenance_work_mem=64MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+
+  redis:
+    image: redis:7-alpine
+    container_name: eco-rindexer-redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    restart: unless-stopped
+    networks:
+      - eco-rindexer-network
+    # Redis configuration optimized for caching
+    command: >
+      redis-server
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+      --appendfsync everysec
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: eco-rindexer-prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - eco-rindexer-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: eco-rindexer-grafana
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-clock-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - eco-rindexer-network
+
+  # Health check service for monitoring overall system health
+  healthcheck:
+    image: alpine:latest
+    container_name: eco-rindexer-healthcheck
+    command: >
+      sh -c "
+        apk add --no-cache curl &&
+        while true; do
+          echo 'Health check at $(date)' &&
+          curl -f http://rindexer:8080/health || echo 'Rindexer health check failed' &&
+          curl -f http://erpc:4000/health || echo 'eRPC health check failed' &&
+          curl -f http://postgres:5432 || echo 'Postgres health check failed' &&
+          sleep 60
+        done
+      "
+    depends_on:
+      - rindexer
+      - postgres
+      - erpc
+    restart: unless-stopped
+    networks:
+      - eco-rindexer-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  eco-rindexer-network:
+    driver: bridge

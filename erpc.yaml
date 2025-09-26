@@ -1,0 +1,554 @@
+# eRPC Configuration for Eco Rindexer
+# Fault-tolerant RPC proxy with re-org aware caching
+logLevel: info
+server:
+  httpHost: 0.0.0.0
+  httpPort: 4000
+  maxTimeout: 30s
+
+database:
+  evmJsonRpcCache:
+    driver: memory
+    memory:
+      maxItems: 10000
+
+metrics:
+  enabled: true
+  host: 0.0.0.0
+  port: 4001
+
+rateLimiters:
+  budgets:
+    - id: global
+      rules:
+        - method: "*"
+          maxCount: 1000
+          period: 1s
+
+projects:
+  - id: main
+    # Global upstreams for all EVM networks
+    upstreams:
+      # Tier 1 RPC Providers - Premium endpoints
+      - id: alchemy-mainnet
+        endpoint: "https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxCount: 3
+            delay: 1s
+            backoffMultiplier: 2
+          circuitBreaker:
+            failureThreshold: 5
+            successThreshold: 2
+            timeout: 30s
+
+      - id: infura-mainnet
+        endpoint: "https://mainnet.infura.io/v3/${INFURA_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxCount: 3
+            delay: 1s
+            backoffMultiplier: 2
+
+      # Tier 1 Network Specific Upstreams
+      - id: alchemy-arbitrum
+        endpoint: "https://arb-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxCount: 3
+
+      - id: alchemy-base
+        endpoint: "https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxCount: 3
+
+      - id: alchemy-polygon
+        endpoint: "https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxCount: 3
+
+      - id: alchemy-optimism
+        endpoint: "https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxCount: 3
+
+      # Fallback endpoints for tier 1 networks
+      - id: eth-merkle
+        endpoint: "https://eth.merkle.io"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: arbitrum-public
+        endpoint: "https://arb1.arbitrum.io/rpc"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: base-public
+        endpoint: "https://mainnet.base.org"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: polygon-public
+        endpoint: "https://polygon-rpc.com"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: optimism-public
+        endpoint: "https://mainnet.optimism.io"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      # Tier 2 & 3 Network Public Endpoints
+      - id: unichain-sepolia
+        endpoint: "https://sepolia.unichain.org"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: sonic-mainnet
+        endpoint: "https://rpc.sonic.fantom.network"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: sonic-alt
+        endpoint: "https://rpc.soniclabs.com"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: manta-pacific
+        endpoint: "https://pacific-rpc.manta.network/http"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: manta-drpc
+        endpoint: "https://manta-pacific.drpc.org"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: celo-mainnet
+        endpoint: "https://forno.celo.org"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: mantle-mainnet
+        endpoint: "https://rpc.mantle.xyz"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: mantle-blast
+        endpoint: "https://mantle-mainnet.public.blastapi.io"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: apechain-mainnet
+        endpoint: "https://apechain.calderachain.xyz/http"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: apechain-public
+        endpoint: "https://rpc.apechain.com"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: worldchain-alchemy
+        endpoint: "https://worldchain-mainnet.g.alchemy.com/public"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: worldchain-drpc
+        endpoint: "https://worldchain.drpc.org"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      # Single endpoint networks (Tier 3)
+      - id: molten-mainnet
+        endpoint: "https://rpc.molten.calderachain.xyz/http"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: appchain-mainnet
+        endpoint: "https://rpc.appchain.biconomy.io"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: form-mainnet
+        endpoint: "https://rpc.form.network"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: sanko-mainnet
+        endpoint: "https://mainnet.sanko.xyz"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: inevm-mainnet
+        endpoint: "https://mainnet.inevm.com/http"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: superseed-mainnet
+        endpoint: "https://mainnet.superseed.xyz"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: b3-mainnet
+        endpoint: "https://mainnet.b3.fun"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: plasma-mainnet
+        endpoint: "https://rpc.plasma.games"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: curtis-mainnet
+        endpoint: "https://rpc.curtis.apechain.com"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: ink-mainnet
+        endpoint: "https://rpc-gel.inkonchain.com"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: alienx-mainnet
+        endpoint: "https://rpc.alienxchain.io/http"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: rari-mainnet
+        endpoint: "https://mainnet.rpc.rarichain.org/http"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      # Testnet endpoints
+      - id: sepolia-alchemy
+        endpoint: "https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: sepolia-infura
+        endpoint: "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: sepolia-public
+        endpoint: "https://rpc.sepolia.org"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: op-sepolia-alchemy
+        endpoint: "https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: op-sepolia-infura
+        endpoint: "https://optimism-sepolia.infura.io/v3/${INFURA_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: op-sepolia-public
+        endpoint: "https://sepolia.optimism.io"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: base-sepolia-alchemy
+        endpoint: "https://base-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: base-sepolia-infura
+        endpoint: "https://base-sepolia.infura.io/v3/${INFURA_API_KEY}"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: base-sepolia-public
+        endpoint: "https://sepolia.base.org"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: sanko-sepolia
+        endpoint: "https://sepolia.sanko.xyz"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: manta-sepolia
+        endpoint: "https://pacific-rpc.sepolia-testnet.manta.network/http"
+        failsafe:
+          timeout:
+            duration: 30s
+
+      - id: towns-sepolia
+        endpoint: "https://rpc.towns.com"
+        failsafe:
+          timeout:
+            duration: 30s
+
+    # Network-specific routing configuration
+    networks:
+      # Ethereum Mainnet (Chain ID 1)
+      - chainId: 1
+        upstreams:
+          - id: alchemy-mainnet
+            priority: 100
+          - id: infura-mainnet
+            priority: 90
+          - id: eth-merkle
+            priority: 80
+
+      # Arbitrum One (Chain ID 42161)
+      - chainId: 42161
+        upstreams:
+          - id: alchemy-arbitrum
+            priority: 100
+          - id: arbitrum-public
+            priority: 80
+
+      # Base (Chain ID 8453)
+      - chainId: 8453
+        upstreams:
+          - id: alchemy-base
+            priority: 100
+          - id: base-public
+            priority: 80
+
+      # Polygon (Chain ID 137)
+      - chainId: 137
+        upstreams:
+          - id: alchemy-polygon
+            priority: 100
+          - id: polygon-public
+            priority: 80
+
+      # Optimism (Chain ID 10)
+      - chainId: 10
+        upstreams:
+          - id: alchemy-optimism
+            priority: 100
+          - id: optimism-public
+            priority: 80
+
+      # Unichain Sepolia (Chain ID 130)
+      - chainId: 130
+        upstreams:
+          - id: unichain-sepolia
+            priority: 100
+
+      # Sonic (Chain ID 146)
+      - chainId: 146
+        upstreams:
+          - id: sonic-mainnet
+            priority: 100
+          - id: sonic-alt
+            priority: 80
+
+      # Manta Pacific (Chain ID 169)
+      - chainId: 169
+        upstreams:
+          - id: manta-pacific
+            priority: 100
+          - id: manta-drpc
+            priority: 80
+
+      # Celo (Chain ID 42220)
+      - chainId: 42220
+        upstreams:
+          - id: celo-mainnet
+            priority: 100
+
+      # Mantle (Chain ID 5000)
+      - chainId: 5000
+        upstreams:
+          - id: mantle-mainnet
+            priority: 100
+          - id: mantle-blast
+            priority: 80
+
+      # Ape Chain (Chain ID 33139)
+      - chainId: 33139
+        upstreams:
+          - id: apechain-mainnet
+            priority: 100
+          - id: apechain-public
+            priority: 80
+
+      # World Chain (Chain ID 480)
+      - chainId: 480
+        upstreams:
+          - id: worldchain-alchemy
+            priority: 100
+          - id: worldchain-drpc
+            priority: 80
+
+      # Molten (Chain ID 360)
+      - chainId: 360
+        upstreams:
+          - id: molten-mainnet
+            priority: 100
+
+      # Appchain (Chain ID 466)
+      - chainId: 466
+        upstreams:
+          - id: appchain-mainnet
+            priority: 100
+
+      # Form Network (Chain ID 478)
+      - chainId: 478
+        upstreams:
+          - id: form-mainnet
+            priority: 100
+
+      # Sanko (Chain ID 1996)
+      - chainId: 1996
+        upstreams:
+          - id: sanko-mainnet
+            priority: 100
+
+      # IneVM (Chain ID 2525)
+      - chainId: 2525
+        upstreams:
+          - id: inevm-mainnet
+            priority: 100
+
+      # Superseed (Chain ID 5330)
+      - chainId: 5330
+        upstreams:
+          - id: superseed-mainnet
+            priority: 100
+
+      # B3 (Chain ID 8333)
+      - chainId: 8333
+        upstreams:
+          - id: b3-mainnet
+            priority: 100
+
+      # Plasma (Chain ID 9745)
+      - chainId: 9745
+        upstreams:
+          - id: plasma-mainnet
+            priority: 100
+
+      # Curtis (Chain ID 33111)
+      - chainId: 33111
+        upstreams:
+          - id: curtis-mainnet
+            priority: 100
+
+      # Ink (Chain ID 57073)
+      - chainId: 57073
+        upstreams:
+          - id: ink-mainnet
+            priority: 100
+
+      # AlienX (Chain ID 10241024)
+      - chainId: 10241024
+        upstreams:
+          - id: alienx-mainnet
+            priority: 100
+
+      # Rari (Chain ID 1380012617)
+      - chainId: 1380012617
+        upstreams:
+          - id: rari-mainnet
+            priority: 100
+
+      # Sepolia Testnet (Chain ID 11155111)
+      - chainId: 11155111
+        upstreams:
+          - id: sepolia-alchemy
+            priority: 100
+          - id: sepolia-infura
+            priority: 90
+          - id: sepolia-public
+            priority: 80
+
+      # OP Sepolia (Chain ID 11155420)
+      - chainId: 11155420
+        upstreams:
+          - id: op-sepolia-alchemy
+            priority: 100
+          - id: op-sepolia-infura
+            priority: 90
+          - id: op-sepolia-public
+            priority: 80
+
+      # Base Sepolia (Chain ID 84532)
+      - chainId: 84532
+        upstreams:
+          - id: base-sepolia-alchemy
+            priority: 100
+          - id: base-sepolia-infura
+            priority: 90
+          - id: base-sepolia-public
+            priority: 80
+
+      # Sanko Sepolia (Chain ID 1992)
+      - chainId: 1992
+        upstreams:
+          - id: sanko-sepolia
+            priority: 100
+
+      # Manta Sepolia (Chain ID 3441006)
+      - chainId: 3441006
+        upstreams:
+          - id: manta-sepolia
+            priority: 100
+
+      # Towns Sepolia (Chain ID 6524490)
+      - chainId: 6524490
+        upstreams:
+          - id: towns-sepolia
+            priority: 100
