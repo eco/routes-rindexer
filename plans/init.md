@@ -61,7 +61,7 @@ This plan outlines the implementation of a production-ready rindexer project to 
 
 **Unique Stable Types**: 9 different stable token variants with specific addresses defined in @eco-foundation/chains package
 
-### 1.3 @eco-foundation/routes-ts Analysis
+### 1.3 @eco-foundation/routes-ts@alpha Analysis
 
 #### Portal Contract Deployment Analysis:
 - **Total Deployments**: 33 Portal contracts across all production chains
