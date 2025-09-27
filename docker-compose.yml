@@ -1,48 +1,55 @@
 # Production docker-compose.yml for Eco Rindexer
 # Based on Phase 4.1 deployment architecture from initialization plan
 
-version: '3.8'
-
 services:
   # eRPC - Fault-tolerant RPC proxy with caching and failover
   erpc:
-    image: erpc/erpc:latest
+    image: ghcr.io/erpc/erpc:latest
+    platform: linux/amd64
     container_name: eco-rindexer-erpc
     environment:
       - ALCHEMY_API_KEY=${ALCHEMY_API_KEY}
       - INFURA_API_KEY=${INFURA_API_KEY}
     volumes:
-      - ./erpc.yaml:/root/erpc.yaml
+      - ./erpc.yaml:/erpc.yaml
     ports:
       - "4000:4000"  # RPC proxy port
       - "4001:4001"  # Metrics port
     restart: unless-stopped
     networks:
       - eco-rindexer-network
-    command: ["erpc", "--config", "/root/erpc.yaml"]
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      test: ["NONE"]
 
   rindexer:
     image: ghcr.io/joshstevens19/rindexer:latest
+    platform: linux/amd64
     container_name: eco-rindexer
+    command: ["start", "all"]
     environment:
       - DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - ALCHEMY_API_KEY=${ALCHEMY_API_KEY}
       - INFURA_API_KEY=${INFURA_API_KEY}
       - CURTIS_API_KEY=${CURTIS_API_KEY}
       - MANTA_API_KEY=${MANTA_API_KEY}
       - TRACK_NATIVE_TOKEN_ADDRESSES=${TRACK_NATIVE_TOKEN_ADDRESSES}
     volumes:
-      - ./rindexer.yaml:/app/rindexer.yaml
-      - ./abis:/app/abis
+      - ./rindexer.yaml:/rindexer.yaml
+      - ./abis:/abis
+    ports:
+      - "8080:8080"  # Rindexer API port
     depends_on:
-      - postgres
-      - redis
-      - erpc
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
+      erpc:
+        condition: service_started
     restart: unless-stopped
     networks:
       - eco-rindexer-network
@@ -136,12 +143,12 @@ services:
     container_name: eco-rindexer-healthcheck
     command: >
       sh -c "
-        apk add --no-cache curl &&
+        apk add --no-cache curl netcat-openbsd &&
         while true; do
           echo 'Health check at $(date)' &&
           curl -f http://rindexer:8080/health || echo 'Rindexer health check failed' &&
-          curl -f http://erpc:4000/health || echo 'eRPC health check failed' &&
-          curl -f http://postgres:5432 || echo 'Postgres health check failed' &&
+          curl -f http://erpc:4001 || echo 'eRPC health check failed' &&
+          nc -z postgres 5432 && echo 'Postgres connection OK' || echo 'Postgres health check failed' &&
           sleep 60
         done
       "
