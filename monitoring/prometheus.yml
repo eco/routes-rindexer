@@ -12,28 +12,25 @@ alerting:
           - alertmanager:9093
 
 scrape_configs:
-  # Rindexer metrics
-  - job_name: 'rindexer'
+  # eRPC metrics - Primary RPC proxy
+  - job_name: 'erpc'
     static_configs:
-      - targets: ['host.docker.internal:8080']
+      - targets: ['erpc:4001']
     metrics_path: '/metrics'
     scrape_interval: 10s
 
-  # PostgreSQL metrics (if pg_exporter is used)
+  # Rindexer health check (not metrics, just health status)
+  # Note: rindexer does not expose Prometheus metrics
+  # Monitor via database queries or GraphQL API instead
+
+  # PostgreSQL metrics
   - job_name: 'postgres'
     static_configs:
-      - targets: ['host.docker.internal:9187']
-    scrape_interval: 30s
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 15s
 
-  # Node metrics (if node_exporter is used)
-  - job_name: 'node'
+  # Redis metrics
+  - job_name: 'redis'
     static_configs:
-      - targets: ['host.docker.internal:9100']
-    scrape_interval: 30s
-
-  # Custom RPC health checks
-  - job_name: 'rpc-health'
-    static_configs:
-      - targets: ['host.docker.internal:8081']
-    metrics_path: '/health'
-    scrape_interval: 60s
+      - targets: ['redis-exporter:9121']
+    scrape_interval: 15s
