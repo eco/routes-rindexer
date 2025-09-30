@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@eco-foundation/chains':
-        specifier: ^2.0.3
-        version: 2.0.3(@samchon/openapi@3.3.0)(@types/node@22.7.5)(typescript@5.8.3)
+        specifier: ^2.0.4
+        version: 2.0.4(@samchon/openapi@3.3.0)(@types/node@22.7.5)(typescript@5.8.3)
       '@eco-foundation/routes-ts':
-        specifier: 3.0.0-alpha.8
-        version: 3.0.0-alpha.8(typescript@5.8.3)
+        specifier: 3.0.0-alpha.14
+        version: 3.0.0-alpha.14(typescript@5.8.3)
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0
@@ -30,11 +30,11 @@ packages:
     resolution: {integrity: sha512-2WJMeRQPHKSPemqk/awGrAiuFfzBmOIPXKizAsVhWH9YJqLZ0H+HS4c8loHGgW6utJ3E/ejXQUsiGaQy2NZ9Fw==}
     engines: {node: '>=6.9.0'}
 
-  '@eco-foundation/chains@2.0.3':
-    resolution: {integrity: sha512-rQQU+df5bC6bvD82f58VMgRuzkHB+ILTCAvyaBvcnbF4uVbFkx/DlB2QlUdAeytQP/Ml0H4PsDSeqJGVc9YI8g==}
+  '@eco-foundation/chains@2.0.4':
+    resolution: {integrity: sha512-eGTeH7gdTRZzUwhyanzoSBy+Jp/15kls+PmV9UTO3qLRDvSxPMTlpb0B710pNV6X91+LWrKkMEGkdgmUNxZKXw==}
 
-  '@eco-foundation/routes-ts@3.0.0-alpha.8':
-    resolution: {integrity: sha512-6FrcP2yx7Spl3yjkJLAx0vXvfdY9Ct44eGA/IdTMEu5P9jRm3jHKPUvfYuooFP/u8YzaaOXiPiLDPCWNJdfM0A==}
+  '@eco-foundation/routes-ts@3.0.0-alpha.14':
+    resolution: {integrity: sha512-YWjGIPWzo8XcfXpyV9wgPrvsnKppd9GMHI5mL3efCXb5nDj3uR5fpVGdJkeRzN8KVhhZVXwvyDeLS2xj80Chww==}
 
   '@inquirer/external-editor@1.0.2':
     resolution: {integrity: sha512-yy9cOoBnx58TlsPrIxauKIFQTiyH+0MK4e97y4sV9ERbI+zDxw7i2hxHLCIEGIE/8PPvDxGhgzIOTSOWcs6/MQ==}
@@ -493,6 +493,14 @@ packages:
       typescript:
         optional: true
 
+  viem@2.37.8:
+    resolution: {integrity: sha512-mL+5yvCQbRIR6QvngDQMfEiZTfNWfd+/QL5yFaOoYbpH3b1Q2ddwF7YG2eI2AcYSh9LE1gtUkbzZLFUAVyj4oQ==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
@@ -534,10 +542,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@eco-foundation/chains@2.0.3(@samchon/openapi@3.3.0)(@types/node@22.7.5)(typescript@5.8.3)':
+  '@eco-foundation/chains@2.0.4(@samchon/openapi@3.3.0)(@types/node@22.7.5)(typescript@5.8.3)':
     dependencies:
       typia: 8.2.0(@samchon/openapi@3.3.0)(@types/node@22.7.5)(typescript@5.8.3)
-      viem: 2.37.7(typescript@5.8.3)
+      viem: 2.37.8(typescript@5.8.3)
     transitivePeerDependencies:
       - '@samchon/openapi'
       - '@types/node'
@@ -546,7 +554,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@eco-foundation/routes-ts@3.0.0-alpha.8(typescript@5.8.3)':
+  '@eco-foundation/routes-ts@3.0.0-alpha.14(typescript@5.8.3)':
     dependencies:
       tronweb: 6.0.4
       viem: 2.37.7(typescript@5.8.3)
@@ -1013,6 +1021,23 @@ snapshots:
   validator@13.12.0: {}
 
   viem@2.37.7(typescript@5.8.3):
+    dependencies:
+      '@noble/curves': 1.9.1
+      '@noble/hashes': 1.8.0
+      '@scure/bip32': 1.7.0
+      '@scure/bip39': 1.6.0
+      abitype: 1.1.0(typescript@5.8.3)
+      isows: 1.0.7(ws@8.18.3)
+      ox: 0.9.6(typescript@5.8.3)
+      ws: 8.18.3
+    optionalDependencies:
+      typescript: 5.8.3
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+      - zod
+
+  viem@2.37.8(typescript@5.8.3):
     dependencies:
       '@noble/curves': 1.9.1
       '@noble/hashes': 1.8.0

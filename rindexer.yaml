@@ -15,129 +15,130 @@ rpc_config:
 # Network definitions - All networks now use eRPC proxy for fault-tolerant RPC
 # eRPC automatically handles failover, caching, and load balancing
 networks:
-  # Tier 1 Networks (Premium RPC Support via eRPC)
-  - name: ethereum
-    chain_id: 1
-    rpc: "http://erpc:4000/main/evm/1"
+  # Tier 1 Networks (Premium RPC Support via eRPC) - COMMENTED OUT FOR TESTING
+  # - name: ethereum
+  #   chain_id: 1
+  #   rpc: "http://erpc:4000/main/evm/1"
 
-  - name: arbitrum-one
-    chain_id: 42161
-    rpc: "http://erpc:4000/main/evm/42161"
+  # - name: arbitrum-one
+  #   chain_id: 42161
+  #   rpc: "http://erpc:4000/main/evm/42161"
 
-  - name: base
-    chain_id: 8453
-    rpc: "http://erpc:4000/main/evm/8453"
+  # - name: base
+  #   chain_id: 8453
+  #   rpc: "http://erpc:4000/main/evm/8453"
 
-  - name: polygon
-    chain_id: 137
-    rpc: "http://erpc:4000/main/evm/137"
+  # - name: polygon
+  #   chain_id: 137
+  #   rpc: "http://erpc:4000/main/evm/137"
 
-  - name: op-mainnet
-    chain_id: 10
-    rpc: "http://erpc:4000/main/evm/10"
+  # - name: op-mainnet
+  #   chain_id: 10
+  #   rpc: "http://erpc:4000/main/evm/10"
 
-  # Tier 2 Networks (Standard RPC Support via eRPC)
-  - name: unichain
-    chain_id: 130
-    rpc: "http://erpc:4000/main/evm/130"
+  # Tier 2 Networks (Standard RPC Support via eRPC) - COMMENTED OUT FOR TESTING
+  # - name: unichain
+  #   chain_id: 130
+  #   rpc: "http://erpc:4000/main/evm/130"
 
-  - name: sonic
-    chain_id: 146
-    rpc: "http://erpc:4000/main/evm/146"
+  # - name: sonic
+  #   chain_id: 146
+  #   rpc: "http://erpc:4000/main/evm/146"
 
-  - name: manta-pacific-mainnet
-    chain_id: 169
-    rpc: "http://erpc:4000/main/evm/169"
+  # - name: manta-pacific-mainnet
+  #   chain_id: 169
+  #   rpc: "http://erpc:4000/main/evm/169"
 
-  - name: celo
-    chain_id: 42220
-    rpc: "http://erpc:4000/main/evm/42220"
+  # - name: celo
+  #   chain_id: 42220
+  #   rpc: "http://erpc:4000/main/evm/42220"
 
-  - name: mantle
-    chain_id: 5000
-    rpc: "http://erpc:4000/main/evm/5000"
+  # - name: mantle
+  #   chain_id: 5000
+  #   rpc: "http://erpc:4000/main/evm/5000"
 
-  - name: ape-chain
-    chain_id: 33139
-    rpc: "http://erpc:4000/main/evm/33139"
+  # - name: ape-chain
+  #   chain_id: 33139
+  #   rpc: "http://erpc:4000/main/evm/33139"
 
-  # Tier 3 Networks (Community RPC Support via eRPC)
-  - name: world-chain
-    chain_id: 480
-    rpc: "http://erpc:4000/main/evm/480"
+  # Tier 3 Networks (Community RPC Support via eRPC) - TESTING WITH PLASMA ONLY
+  # - name: world-chain
+  #   chain_id: 480
+  #   rpc: "http://erpc:4000/main/evm/480"
 
-  - name: molten
-    chain_id: 360
-    rpc: "http://erpc:4000/main/evm/360"
+  # - name: molten
+  #   chain_id: 360
+  #   rpc: "http://erpc:4000/main/evm/360"
 
-  - name: appchain
-    chain_id: 466
-    rpc: "http://erpc:4000/main/evm/466"
+  # - name: appchain
+  #   chain_id: 466
+  #   rpc: "http://erpc:4000/main/evm/466"
 
-  - name: form-network
-    chain_id: 478
-    rpc: "http://erpc:4000/main/evm/478"
+  # - name: form-network
+  #   chain_id: 478
+  #   rpc: "http://erpc:4000/main/evm/478"
 
-  - name: sanko
-    chain_id: 1996
-    rpc: "http://erpc:4000/main/evm/1996"
+  # - name: sanko
+  #   chain_id: 1996
+  #   rpc: "http://erpc:4000/main/evm/1996"
 
-  - name: inevm-mainnet
-    chain_id: 2525
-    rpc: "http://erpc:4000/main/evm/2525"
+  # - name: inevm-mainnet
+  #   chain_id: 2525
+  #   rpc: "http://erpc:4000/main/evm/2525"
 
-  - name: superseed
-    chain_id: 5330
-    rpc: "http://erpc:4000/main/evm/5330"
+  # - name: superseed
+  #   chain_id: 5330
+  #   rpc: "http://erpc:4000/main/evm/5330"
 
-  - name: b3
-    chain_id: 8333
-    rpc: "http://erpc:4000/main/evm/8333"
+  # - name: b3
+  #   chain_id: 8333
+  #   rpc: "http://erpc:4000/main/evm/8333"
 
+  # TESTING: Only plasma-mainnet enabled for initial testing
   - name: plasma-mainnet
     chain_id: 9745
     rpc: "http://erpc:4000/main/evm/9745"
 
-  - name: curtis
-    chain_id: 33111
-    rpc: "http://erpc:4000/main/evm/33111"
+  # - name: curtis
+  #   chain_id: 33111
+  #   rpc: "http://erpc:4000/main/evm/33111"
 
-  - name: ink
-    chain_id: 57073
-    rpc: "http://erpc:4000/main/evm/57073"
+  # - name: ink
+  #   chain_id: 57073
+  #   rpc: "http://erpc:4000/main/evm/57073"
 
-  - name: alienx-mainnet
-    chain_id: 10241024
-    rpc: "http://erpc:4000/main/evm/10241024"
+  # - name: alienx-mainnet
+  #   chain_id: 10241024
+  #   rpc: "http://erpc:4000/main/evm/10241024"
 
-  - name: rari
-    chain_id: 1380012617
-    rpc: "http://erpc:4000/main/evm/1380012617"
+  # - name: rari
+  #   chain_id: 1380012617
+  #   rpc: "http://erpc:4000/main/evm/1380012617"
 
-  # Testnet Networks (via eRPC)
-  - name: sepolia
-    chain_id: 11155111
-    rpc: "http://erpc:4000/main/evm/11155111"
+  # Testnet Networks (via eRPC) - COMMENTED OUT FOR TESTING
+  # - name: sepolia
+  #   chain_id: 11155111
+  #   rpc: "http://erpc:4000/main/evm/11155111"
 
-  - name: op-sepolia
-    chain_id: 11155420
-    rpc: "http://erpc:4000/main/evm/11155420"
+  # - name: op-sepolia
+  #   chain_id: 11155420
+  #   rpc: "http://erpc:4000/main/evm/11155420"
 
-  - name: base-sepolia
-    chain_id: 84532
-    rpc: "http://erpc:4000/main/evm/84532"
+  # - name: base-sepolia
+  #   chain_id: 84532
+  #   rpc: "http://erpc:4000/main/evm/84532"
 
-  - name: sanko-sepolia
-    chain_id: 1992
-    rpc: "http://erpc:4000/main/evm/1992"
+  # - name: sanko-sepolia
+  #   chain_id: 1992
+  #   rpc: "http://erpc:4000/main/evm/1992"
 
-  - name: manta-pacific-sepolia-testnet
-    chain_id: 3441006
-    rpc: "http://erpc:4000/main/evm/3441006"
+  # - name: manta-pacific-sepolia-testnet
+  #   chain_id: 3441006
+  #   rpc: "http://erpc:4000/main/evm/3441006"
 
-  - name: towns-sepolia
-    chain_id: 6524490
-    rpc: "http://erpc:4000/main/evm/6524490"
+  # - name: towns-sepolia
+  #   chain_id: 6524490
+  #   rpc: "http://erpc:4000/main/evm/6524490"
 
 # Native token transfer tracking configuration
 # NOTE: Temporarily commented out due to format parsing issues
@@ -172,135 +173,136 @@ storage:
 
 # Contract definitions
 contracts:
-  # Portal Contract - Complete Configuration (30 networks)
+  # Portal Contract - TESTING: Only plasma-mainnet enabled
   - name: Portal
     details:
-      # Tier 1 Networks - Main Portal Address
-      - network: ethereum
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "18500000"
+      # Tier 1 Networks - Main Portal Address - COMMENTED OUT FOR TESTING
+      # - network: ethereum
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "18500000"
 
-      - network: arbitrum-one
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "150000000"
+      # - network: arbitrum-one
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "150000000"
 
-      - network: base
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "8000000"
+      # - network: base
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "8000000"
 
-      - network: polygon
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "45000000"
+      # - network: polygon
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "45000000"
 
-      - network: op-mainnet
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "105000000"
+      # - network: op-mainnet
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "105000000"
 
-      # Tier 2 Networks - Main Portal Address
-      - network: unichain
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # Tier 2 Networks - Main Portal Address - COMMENTED OUT FOR TESTING
+      # - network: unichain
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: sonic
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: sonic
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: manta-pacific-mainnet
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: manta-pacific-mainnet
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: celo
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: celo
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: mantle
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: mantle
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: ape-chain
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: ape-chain
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      # Tier 3 Networks - Main Portal Address
-      - network: molten
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # Tier 3 Networks - Main Portal Address - TESTING WITH PLASMA ONLY
+      # - network: molten
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: appchain
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: appchain
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: form-network
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: form-network
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: sanko
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: sanko
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: inevm-mainnet
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: inevm-mainnet
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: superseed
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: superseed
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: b3
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: b3
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
+      # TESTING: Only plasma-mainnet enabled for initial testing
       - network: plasma-mainnet
         address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
         start_block: "1"
 
-      - network: curtis
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: curtis
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: ink
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: ink
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: alienx-mainnet
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: alienx-mainnet
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: rari
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: rari
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      # World Chain - Special Portal Address
-      - network: world-chain
-        address: "0x76894f87B59c193C1208538595D1252c5AEff213"
-        start_block: "1"
+      # World Chain - Special Portal Address - COMMENTED OUT FOR TESTING
+      # - network: world-chain
+      #   address: "0x76894f87B59c193C1208538595D1252c5AEff213"
+      #   start_block: "1"
 
-      # Testnet Networks - Main Portal Address
-      - network: sepolia
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # Testnet Networks - Main Portal Address - COMMENTED OUT FOR TESTING
+      # - network: sepolia
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: op-sepolia
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: op-sepolia
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: base-sepolia
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: base-sepolia
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: sanko-sepolia
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: sanko-sepolia
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: manta-pacific-sepolia-testnet
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: manta-pacific-sepolia-testnet
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-      - network: towns-sepolia
-        address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
-        start_block: "1"
+      # - network: towns-sepolia
+      #   address: "0xB5e58A8206473Df3Ab9b8DDd3B0F84c0ba68F8b5"
+      #   start_block: "1"
 
-    abi: ./abis/eco-routes/Portal.abi.json
+    abi: /abis/eco-routes/Portal.abi.json
     include_events:
       - IntentPublished
       - IntentFulfilled
@@ -313,72 +315,84 @@ contracts:
       - Open
       - EIP712DomainChanged
 
-  # USDC - Most widely deployed stable (starting with 5 major chains)
-  - name: StableUSDC
+  # USDT0 - Plasma Chain Stable Token - TESTING ENABLED
+  - name: StableUSDT0
     details:
-      - network: ethereum
-        address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-        start_block: "6082465"
-      - network: arbitrum-one
-        address: "0xaf88d065e77c8cc2239327c5edb3a432268e5831"
-        start_block: "150000000"
-      - network: base
-        address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
-        start_block: "8000000"
-      - network: polygon
-        address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
-        start_block: "45000000"
-      - network: op-mainnet
-        address: "0x0b2c639c533813f4aa9d7837caf62653d097ff85"
-        start_block: "105000000"
-    abi: ./abis/tokens/ERC20.abi.json
+      # TESTING: Only plasma-mainnet enabled for USDT0 token
+      - network: plasma-mainnet
+        address: "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb"
+        start_block: "1"
+    abi: /abis/tokens/ERC20.abi.json
     include_events:
       - Transfer
+      - Approval
 
-  # USDT - Second most deployed stable (starting with 3 major chains)
-  - name: StableUSDT
-    details:
-      - network: ethereum
-        address: "0xdac17f958d2ee523a2206206994597c13d831ec7"
-        start_block: "4634748"
-      - network: polygon
-        address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
-        start_block: "17000000"
-      - network: op-mainnet
-        address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58"
-        start_block: "4300000"
-    abi: ./abis/tokens/ERC20.abi.json
-    include_events:
-      - Transfer
+  # USDC - Most widely deployed stable - COMMENTED OUT FOR TESTING
+  # - name: StableUSDC
+  #   details:
+  #     - network: ethereum
+  #       address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+  #       start_block: "6082465"
+  #     - network: arbitrum-one
+  #       address: "0xaf88d065e77c8cc2239327c5edb3a432268e5831"
+  #       start_block: "150000000"
+  #     - network: base
+  #       address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+  #       start_block: "8000000"
+  #     - network: polygon
+  #       address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+  #       start_block: "45000000"
+  #     - network: op-mainnet
+  #       address: "0x0b2c639c533813f4aa9d7837caf62653d097ff85"
+  #       start_block: "105000000"
+  #   abi: ./abis/tokens/ERC20.abi.json
+  #   include_events:
+  #     - Transfer
 
-  # USDCe - Bridged USDC (starting with 3 major chains)
-  - name: StableUSDCe
-    details:
-      - network: arbitrum-one
-        address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
-        start_block: "90000000"
-      - network: polygon
-        address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
-        start_block: "25000000"
-      - network: op-mainnet
-        address: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607"
-        start_block: "4300000"
-    abi: ./abis/tokens/ERC20.abi.json
-    include_events:
-      - Transfer
+  # USDT - Second most deployed stable - COMMENTED OUT FOR TESTING
+  # - name: StableUSDT
+  #   details:
+  #     - network: ethereum
+  #       address: "0xdac17f958d2ee523a2206206994597c13d831ec7"
+  #       start_block: "4634748"
+  #     - network: polygon
+  #       address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+  #       start_block: "17000000"
+  #     - network: op-mainnet
+  #       address: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58"
+  #       start_block: "4300000"
+  #   abi: ./abis/tokens/ERC20.abi.json
+  #   include_events:
+  #     - Transfer
 
-  # oUSDT - Origin USDT (starting with 2 major chains)
-  - name: StableoUSDT
-    details:
-      - network: ethereum
-        address: "0x1217bfe6c773eec6cc4a38b5dc45b92292b6e189"
-        start_block: "19000000"
-      - network: base
-        address: "0x1217bfe6c773eec6cc4a38b5dc45b92292b6e189"
-        start_block: "8000000"
-    abi: ./abis/tokens/ERC20.abi.json
-    include_events:
-      - Transfer
+  # USDCe - Bridged USDC - COMMENTED OUT FOR TESTING
+  # - name: StableUSDCe
+  #   details:
+  #     - network: arbitrum-one
+  #       address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
+  #       start_block: "90000000"
+  #     - network: polygon
+  #       address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
+  #       start_block: "25000000"
+  #     - network: op-mainnet
+  #       address: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607"
+  #       start_block: "4300000"
+  #   abi: ./abis/tokens/ERC20.abi.json
+  #   include_events:
+  #     - Transfer
+
+  # oUSDT - Origin USDT - COMMENTED OUT FOR TESTING
+  # - name: StableoUSDT
+  #   details:
+  #     - network: ethereum
+  #       address: "0x1217bfe6c773eec6cc4a38b5dc45b92292b6e189"
+  #       start_block: "19000000"
+  #     - network: base
+  #       address: "0x1217bfe6c773eec6cc4a38b5dc45b92292b6e189"
+  #       start_block: "8000000"
+  #   abi: ./abis/tokens/ERC20.abi.json
+  #   include_events:
+  #     - Transfer
 
 # GraphQL API configuration
 graphql:
