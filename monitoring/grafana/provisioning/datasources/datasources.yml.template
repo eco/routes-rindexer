@@ -1,0 +1,37 @@
+apiVersion: 1
+
+datasources:
+  # Prometheus - Metrics from exporters (PostgreSQL, Redis, eRPC)
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus-datasource
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      timeInterval: 15s
+      queryTimeout: 60s
+      httpMethod: POST
+    version: 1
+
+  # PostgreSQL - Direct blockchain event data queries
+  - name: PostgreSQL
+    type: postgres
+    uid: postgres-datasource
+    access: proxy
+    url: postgres:5432
+    user: ${DATABASE_USER}
+    isDefault: false
+    editable: false
+    jsonData:
+      database: ${DATABASE_NAME}
+      sslmode: disable
+      postgresVersion: 1500
+      timescaledb: false
+      maxOpenConns: 100
+      maxIdleConns: 100
+      connMaxLifetime: 14400
+    secureJsonData:
+      password: ${DATABASE_PASSWORD}
+    version: 1

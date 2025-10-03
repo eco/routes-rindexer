@@ -90,3 +90,6 @@ temp/
 
 # OS generated files
 Thumbs.db
+
+# Grafana generated files (from templates)
+monitoring/grafana/provisioning/datasources/datasources.yml

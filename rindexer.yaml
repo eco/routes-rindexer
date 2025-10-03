@@ -333,6 +333,11 @@ contracts:
     include_events:
       - Transfer
       - Approval
+    # Token metadata for dashboards and analytics
+    metadata:
+      symbol: "USDT0"
+      decimals: 6
+      description: "Plasma Chain Stable Token"
 
   # USDC - Most widely deployed stable - COMMENTED OUT FOR TESTING
   # - name: StableUSDC
