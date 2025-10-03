@@ -1,0 +1,70 @@
+groups:
+  - name: rindexer_alerts
+    interval: 30s
+    rules:
+      # Indexing lag detection
+      - alert: IndexingLagHigh
+        expr: |
+          (time() - max by (network) (
+            timestamp(
+              last_over_time(
+                pg_stat_user_tables_n_tup_ins{schemaname="ecorindexer_portal"}[5m]
+              )
+            )
+          )) > 300
+        for: 5m
+        labels:
+          severity: warning
+          component: rindexer
+        annotations:
+          summary: "Indexing lag detected on {{ $labels.network }}"
+          description: "No new events indexed in last {{ $value | humanizeDuration }}"
+
+      # Database connection pool
+      - alert: PostgresConnectionsHigh
+        expr: |
+          (
+            sum(pg_stat_database_numbackends{datname!~"template.*|postgres"})
+            /
+            max(pg_settings_max_connections)
+          ) > 0.8
+        for: 5m
+        labels:
+          severity: critical
+          component: database
+        annotations:
+          summary: "PostgreSQL connection pool near capacity"
+          description: "{{ $value | humanizePercentage }} of max connections in use"
+
+      # Redis memory
+      - alert: RedisMemoryHigh
+        expr: (redis_memory_used_bytes / redis_memory_max_bytes) > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "Redis memory usage critical"
+          description: "{{ $value | humanizePercentage }} memory used"
+
+      # eRPC health
+      - alert: ERPCDown
+        expr: up{job="erpc"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: rpc
+        annotations:
+          summary: "eRPC proxy is down"
+          description: "Cannot scrape eRPC metrics at {{ $labels.instance }}"
+
+      # Grafana health
+      - alert: GrafanaDown
+        expr: up{job="grafana"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          component: monitoring
+        annotations:
+          summary: "Grafana is down"
+          description: "Grafana monitoring dashboard is unavailable"

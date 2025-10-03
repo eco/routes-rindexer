@@ -12,6 +12,10 @@ rpc_config:
   cache_ttl: 60s
   health_check_interval: 30s
 
+# Indexing configuration - REMOVED: block_batch_size is not a valid rindexer parameter
+# The correct parameter is max_block_range and it must be set per network
+# See network configuration below for proper max_block_range settings
+
 # Network definitions - All networks now use eRPC proxy for fault-tolerant RPC
 # eRPC automatically handles failover, caching, and load balancing
 networks:
@@ -98,6 +102,9 @@ networks:
   - name: plasma-mainnet
     chain_id: 9745
     rpc: "http://erpc:4000/main/evm/9745"
+    # Limit block range per eth_getLogs call to avoid "max results 20000" errors
+    # RPC suggested range: 1881900-1886399 (approximately 4500 blocks)
+    max_block_range: 4500
 
   # - name: curtis
   #   chain_id: 33111
@@ -326,6 +333,11 @@ contracts:
     include_events:
       - Transfer
       - Approval
+    # Token metadata for dashboards and analytics
+    metadata:
+      symbol: "USDT0"
+      decimals: 6
+      description: "Plasma Chain Stable Token"
 
   # USDC - Most widely deployed stable - COMMENTED OUT FOR TESTING
   # - name: StableUSDC

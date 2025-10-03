@@ -1,0 +1,130 @@
+logLevel: warn
+database:
+  evmJsonRpcCache:
+    connectors:
+      - id: memory-cache
+        driver: memory
+      - id: postgres-cache
+        driver: postgresql
+        postgresql:
+          connectionUri: postgres://erpc:erpc@localhost:5432/erpc
+      - id: redis-cache
+        driver: redis
+        redis:
+          addr: redis://localhost:6379
+      - id: scylladb-cache
+        driver: dynamodb
+        dynamodb:
+          region: DC1
+          endpoint: http://localhost:8067
+
+    policies:
+      - network: "*"
+        method: "*"
+        finality: realtime
+        empty: allow
+        connector: memory-cache
+        ttl: 2s
+      - network: "*"
+        method: "*"
+        finality: unfinalized
+        empty: allow
+        connector: redis-cache
+        ttl: 10s
+      - network: "*"
+        method: "*"
+        finality: finalized
+        empty: allow
+        connector: scylladb-cache
+        ttl: 0
+  #  Cache is disabled by default. You can also disable it by uncommenting the following line
+  #  evmJsonRpcCache: ~ 
+server:
+  httpHostV4: 0.0.0.0
+  httpPortV4: 4000
+  # listenV6: false
+  # httpHostV6: "[::]"
+  # httpPortV6: 5000
+  maxTimeout: 50s
+metrics:
+  enabled: true
+  hostV4: 0.0.0.0
+  port: 4001
+projects:
+  - id: main
+    networks:
+      - architecture: evm
+        evm:
+          chainId: 1
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxAttempts: 3
+            delay: 500ms
+            backoffMaxDelay: 10s
+            backoffFactor: 0.3
+            jitter: 500ms
+          hedge:
+            delay: 3000ms
+            maxCount: 2
+      - architecture: evm
+        evm:
+          chainId: 42161
+        failsafe:
+          timeout:
+            duration: 30s
+          retry:
+            maxAttempts: 5
+            delay: 500ms
+            backoffMaxDelay: 10s
+            backoffFactor: 0.3
+            jitter: 200ms
+          hedge:
+            delay: 1000ms
+            maxCount: 2
+    upstreams:
+      - id: alchemy-multi-chain-example-1
+        endpoint: alchemy://XXXX_YOUR_ALCHEMY_API_KEY_HERE_XXXX
+        rateLimitBudget: global
+        failsafe:
+          timeout:
+            duration: 15s
+          retry:
+            maxAttempts: 2
+            delay: 1000ms
+            backoffMaxDelay: 10s
+            backoffFactor: 0.3
+            jitter: 500ms
+rateLimiters:
+  budgets:
+    - id: global-tenderly
+      rules:
+        - method: '*'
+          maxCount: 10000
+          period: 1s
+    - id: global-chainstack
+      rules:
+        - method: '*'
+          maxCount: 10000
+          period: 1s
+    - id: global-onfinality
+      rules:
+        - method: '*'
+          maxCount: 10000
+          period: 1s
+    - id: default-budget
+      rules:
+        - method: '*'
+          maxCount: 10000
+          period: 1s
+    - id: global-blast
+      rules:
+        - method: '*'
+          maxCount: 1000
+          period: 1s
+    - id: global-quicknode
+      rules:
+        - method: '*'
+          maxCount: 300
+          period: 1s
